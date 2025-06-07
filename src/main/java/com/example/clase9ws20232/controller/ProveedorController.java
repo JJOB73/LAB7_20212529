@@ -120,6 +120,29 @@ public class ProveedorController {
         }
     }
 
+    //ELIMINAR
+    @DeleteMapping("")
+    public ResponseEntity<HashMap<String, Object>> borrar(@RequestParam("id") String idStr){
+
+        try{
+            int id = Integer.parseInt(idStr);
+
+            HashMap<String, Object> rpta = new HashMap<>();
+
+            Optional<Proveedor> byId = proveedorRepository.findById(id);
+            if(byId.isPresent()){
+                proveedorRepository.deleteById(id);
+                rpta.put("result","ok");
+            }else{
+                rpta.put("result","no ok");
+                rpta.put("msg","el ID enviado no existe");
+            }
+
+            return ResponseEntity.ok(rpta);
+        }catch (NumberFormatException e){
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
 
 
 

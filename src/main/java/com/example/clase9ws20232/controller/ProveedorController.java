@@ -145,6 +145,18 @@ public class ProveedorController {
     }
 
 
+    //MANEJO DE EXCEPCIONES
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<HashMap<String, String>> gestionException(HttpServletRequest request) {
+        HashMap<String, String> responseMap = new HashMap<>();
+        if (request.getMethod().equals("POST") || request.getMethod().equals("PUT")) {
+            responseMap.put("estado", "error");
+            responseMap.put("msg", "Debe enviar un proveedor");
+        }
+        return ResponseEntity.badRequest().body(responseMap);
+    }
+
+
 
 
 }

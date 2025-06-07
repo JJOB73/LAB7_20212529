@@ -30,5 +30,24 @@ public class ProveedorController {
         return proveedorRepository.findAll();
     }
 
+    // REGISTRO
+    @PostMapping(value = {"", "/"})
+    public ResponseEntity<HashMap<String, Object>> guardarProveedor(
+            @RequestBody Proveedor proveedor,
+            @RequestParam(value = "fetchId", required = false) boolean fetchId) {
+
+        HashMap<String, Object> responseJson = new HashMap<>();
+
+        proveedorRepository.save(proveedor);
+        if (fetchId) {
+            responseJson.put("id", proveedor.getId());
+        }
+        responseJson.put("estado", "creado");
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseJson);
+    }
+
+
+
+
 
 }

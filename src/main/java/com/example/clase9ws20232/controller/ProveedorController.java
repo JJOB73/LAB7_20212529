@@ -24,5 +24,11 @@ public class ProveedorController {
         this.proveedorRepository = proveedorRepository;
     }
 
+    //LISTAR
+    @GetMapping(value = {"/list", ""})
+    public List<Proveedor> listaProveedor() {
+        return proveedorRepository.findAll();
+    }
+
 
 }

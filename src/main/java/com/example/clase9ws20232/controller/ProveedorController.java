@@ -46,6 +46,80 @@ public class ProveedorController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseJson);
     }
 
+    // EDITAR
+    @PutMapping(value = {"", "/"}, consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    public ResponseEntity<HashMap<String, Object>> actualizar(Proveedor proveedorRecibido) {
+
+        HashMap<String, Object> rpta = new HashMap<>();
+
+        if (proveedorRecibido.getId() != null && proveedorRecibido.getId() > 0) {
+
+            Optional<Proveedor> byId = proveedorRepository.findById(proveedorRecibido.getId());
+            if (byId.isPresent()) {
+                Proveedor proveedorFromDb = byId.get();
+
+                if (proveedorRecibido.getRazonSocial() != null)
+                    proveedorFromDb.setRazonSocial(proveedorRecibido.getRazonSocial());
+
+                if (proveedorRecibido.getNombreComercial() != null)
+                    proveedorFromDb.setNombreComercial(proveedorRecibido.getNombreComercial());
+
+                if (proveedorRecibido.getRUC() != null)
+                    proveedorFromDb.setRUC(proveedorRecibido.getRUC());
+
+                if (proveedorRecibido.getTelefono() != null)
+                    proveedorFromDb.setTelefono(proveedorRecibido.getTelefono());
+
+                if (proveedorRecibido.getCorreoElectronico() != null)
+                    proveedorFromDb.setCorreoElectronico(proveedorRecibido.getCorreoElectronico());
+
+                if (proveedorRecibido.getSitioWeb() != null)
+                    proveedorFromDb.setSitioWeb(proveedorRecibido.getSitioWeb());
+
+                if (proveedorRecibido.getDireccionFisica() != null)
+                    proveedorFromDb.setDireccionFisica(proveedorRecibido.getDireccionFisica());
+
+                if (proveedorRecibido.getPais() != null)
+                    proveedorFromDb.setPais(proveedorRecibido.getPais());
+
+                if (proveedorRecibido.getRepresentateLegal() != null)
+                    proveedorFromDb.setRepresentateLegal(proveedorRecibido.getRepresentateLegal());
+
+                if (proveedorRecibido.getDNI() != null)
+                    proveedorFromDb.setDNI(proveedorRecibido.getDNI());
+
+                if (proveedorRecibido.getTipoDeProveedor() != null)
+                    proveedorFromDb.setTipoDeProveedor(proveedorRecibido.getTipoDeProveedor());
+
+                if (proveedorRecibido.getCategoria() != null)
+                    proveedorFromDb.setCategoria(proveedorRecibido.getCategoria());
+
+                if (proveedorRecibido.getFacturacionAnualDolares() != null)
+                    proveedorFromDb.setFacturacionAnualDolares(proveedorRecibido.getFacturacionAnualDolares());
+
+                if (proveedorRecibido.getFechaRegistro() != null)
+                    proveedorFromDb.setFechaRegistro(proveedorRecibido.getFechaRegistro());
+                if (proveedorRecibido.getUltimaActualizacion() != null)
+                    proveedorFromDb.setUltimaActualizacion(proveedorRecibido.getUltimaActualizacion());
+                if (proveedorRecibido.getEstado() != null) {
+                    proveedorFromDb.setEstado(proveedorRecibido.getEstado());
+                }
+
+                proveedorRepository.save(proveedorFromDb);
+                rpta.put("result", "ok");
+                return ResponseEntity.ok(rpta);
+            } else {
+                rpta.put("result", "error");
+                rpta.put("msg", "El ID del proveedor enviado no existe");
+                return ResponseEntity.badRequest().body(rpta);
+            }
+        } else {
+            rpta.put("result", "error");
+            rpta.put("msg", "debe enviar un proveedor con ID");
+            return ResponseEntity.badRequest().body(rpta);
+        }
+    }
+
 
 
 
